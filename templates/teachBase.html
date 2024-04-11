@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="../static/frog.jpeg">
+    <link rel="stylesheet" href="../static/header.css">
+    <title>Online Exam Site</title>
+</head>
+  <body>
+    <header>
+      <div class="topBar">
+        <div class="">
+          <ul class="barItem">
+            <img class="barImage" src="../static/frog.jpeg">
+          </ul>
+          <ul class="barItem">
+            <li><a href="">SHOW TESTS</a></li>
+            <li><a href="">CREATE TESTS</a></li>
+            <li><a href="">EDIT TESTS</a></li>
+            <li><a href="">VIEW ACCOUNTS</a></li>
+          </ul>
+        </div>
+
+        <div class="formSection barItem">  
+            <button class="barItem input" style="margin-left:10px;">
+              <a href="/">LOGOUT</a>
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    {% block body %}
+    {% endblock %}
+
+
+    <footer class="footer">
+      <p><strong>Copyright © 2024 F. L. Snorp</strong></p>
+    </footer>
+
+  </body>
+</html>
