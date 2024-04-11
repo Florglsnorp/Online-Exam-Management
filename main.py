@@ -43,5 +43,15 @@ def student():
 def teacher():
     return render_template('teachHome.html')
 
+@app.route('/loginS.html', methods=["GET"])
+def loginS():
+    return render_template('loginS.html')
+
+@app.route('/loginS.html', methods=["POST"])
+def loginSGo():
+    conn.execute(text(""), request.form)
+    conn.commit()
+    return render_template("index.html")
+
 if __name__ == '__main__':
     app.run(debug=True)
