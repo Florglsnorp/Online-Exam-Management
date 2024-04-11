@@ -3,7 +3,7 @@ from sqlalchemy import create_engine, text
 
 app = Flask(__name__)
 
-conn_str = "mysql://root:Dougnang1@localhost/exam_management"
+conn_str = "mysql://root:jedi4890@localhost/exam_management"
 engine = create_engine(conn_str, echo=True)
 conn = engine.connect()
 
