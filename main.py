@@ -15,6 +15,14 @@ def start():
 def signup():
     return render_template('signup.html')
 
+@app.route('/signupS.html')
+def signupS():
+    return render_template('signupS.html')
+
+@app.route('/signupT.html')
+def signupT():
+    return render_template('signupT.html')
+
 @app.route('/studentHome.html')
 def student():
     return render_template('studentHome.html')
