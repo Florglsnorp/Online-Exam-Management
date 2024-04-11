@@ -49,9 +49,31 @@ def loginS():
 
 @app.route('/loginS.html', methods=["POST"])
 def loginSGo():
-    conn.execute(text(""), request.form)
-    conn.commit()
-    return render_template("index.html")
+    email = request.form['Email']
+    password = request.form['Password']
+
+    query = text("SELECT Student_ID FROM Student WHERE Email = :email AND Password = :password")
+    user = conn.execute(query, {'email': email, 'password': password}).fetchone()
+    if user:
+        return render_template('studentHome.html')
+    else:
+        return render_template('loginS.html')
+
+@app.route('/loginT.html', methods=["GET"])
+def loginT():
+    return render_template('loginT.html')
+
+@app.route('/loginT.html', methods=["POST"])
+def loginTGo():
+    email = request.form['Email']
+    password = request.form['Password']
+
+    query = text("SELECT Teacher_ID FROM teacher WHERE Email = :email AND Password = :password")
+    user = conn.execute(query, {'email': email, 'password': password}).fetchone()
+    if user:
+        return render_template('teachHome.html')
+    else:
+        return render_template('loginT.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
