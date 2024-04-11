@@ -15,13 +15,25 @@ def start():
 def signup():
     return render_template('signup.html')
 
-@app.route('/signupS.html')
+@app.route('/signupS.html', methods=["GET"])
 def signupS():
-    return render_template('signupS.html')
+    return render_template("signupS.html")
 
-@app.route('/signupT.html')
+@app.route('/signupS.html', methods=["POST"])
+def signupSGo():
+    conn.execute(text("INSERT INTO Student (First_Name, Last_Name, Email, Password) VALUES (:First_Name, :Last_Name, :Email, :Password)"), request.form)
+    conn.commit()
+    return render_template("index.html")
+
+@app.route('/signupT.html', methods=["GET"])
 def signupT():
-    return render_template('signupT.html')
+    return render_template("signupT.html")
+
+@app.route('/signupT.html', methods=["POST"])
+def signupTGo():
+    conn.execute(text("INSERT INTO Teacher (First_Name, Last_Name, Email, Password) VALUES (:First_Name, :Last_Name, :Email, :Password)"), request.form)
+    conn.commit()
+    return render_template("index.html")
 
 @app.route('/studentHome.html')
 def student():
