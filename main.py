@@ -37,11 +37,15 @@ def signupTGo():
 
 @app.route('/studentHome.html')
 def student():
-    return render_template('studentHome.html')
+    query = text("SELECT First_Name FROM Student WHERE Student_ID = :studentid")
+    name = conn.execute(query, {'studentid' : studentID}).fetchone()
+    return render_template('studentHome.html', name=name[0])
 
 @app.route('/teachHome.html')
 def teacher():
-    return render_template('teachHome.html')
+    query = text("SELECT First_Name FROM Teacher WHERE Teacher_ID = :teachid")
+    name = conn.execute(query, {'teachid' : teachID}).fetchone()
+    return render_template('teachHome.html', name=name[0])
 
 @app.route('/loginS.html', methods=["GET"])
 def loginS():
@@ -57,7 +61,9 @@ def loginSGo():
     if user:
         global studentID
         studentID = user[0]
-        return render_template('studentHome.html')
+        query = text("SELECT First_Name FROM Student WHERE Student_ID = :studentid")
+        name = conn.execute(query, {'studentid' : studentID}).fetchone()
+        return render_template('studentHome.html', name=name[0])
     else:
         return render_template('loginS.html')
 
@@ -75,7 +81,9 @@ def loginTGo():
     if user:
         global teachID
         teachID = user[0]
-        return render_template('teachHome.html')
+        query = text("SELECT First_Name FROM Teacher WHERE Teacher_ID = :teachid")
+        name = conn.execute(query, {'teachid' : teachID}).fetchone()
+        return render_template('teachHome.html', name=name[0])
     else:
         return render_template('loginT.html')
 
@@ -149,6 +157,29 @@ def createTestGo():
     conn.commit()
 
     return render_template("teachHome.html")
+
+@app.route('/accounts.html')
+def accounts():
+    query = text("SELECT Teacher_ID, First_Name, Last_Name FROM teacher")
+    teacher_data = conn.execute(query)
+    query = text("SELECT Student_ID, First_Name, Last_Name FROM Student")
+    student_data = conn.execute(query)
+
+    return render_template('accounts.html', teacher_data=teacher_data, student_data=student_data)
+
+@app.route('/accountsS.html')
+def accountsS():
+    query = text("SELECT Student_ID, First_Name, Last_Name FROM Student")
+    student_data = conn.execute(query)
+
+    return render_template('accountsS.html', student_data=student_data)
+
+@app.route('/accountsT.html')
+def accountsT():
+    query = text("SELECT Teacher_ID, First_Name, Last_Name FROM teacher")
+    teacher_data = conn.execute(query)
+
+    return render_template('accountsT.html', teacher_data=teacher_data)
 
 if __name__ == '__main__':
     app.run(debug=True)
