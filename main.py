@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, redirect, render_template, request, session, url_for
 from sqlalchemy import create_engine, text
 
 app = Flask(__name__)
@@ -160,26 +160,49 @@ def createTestGo():
 
 @app.route('/accounts.html')
 def accounts():
-    query = text("SELECT Teacher_ID, First_Name, Last_Name FROM teacher")
+    query = text("SELECT Teacher_ID, First_Name, Last_Name, Email FROM teacher")
     teacher_data = conn.execute(query)
-    query = text("SELECT Student_ID, First_Name, Last_Name FROM Student")
+    query = text("SELECT Student_ID, First_Name, Last_Name, Email FROM Student")
     student_data = conn.execute(query)
 
     return render_template('accounts.html', teacher_data=teacher_data, student_data=student_data)
 
 @app.route('/accountsS.html')
 def accountsS():
-    query = text("SELECT Student_ID, First_Name, Last_Name FROM Student")
+    query = text("SELECT Student_ID, First_Name, Last_Name, Email FROM Student")
     student_data = conn.execute(query)
 
     return render_template('accountsS.html', student_data=student_data)
 
 @app.route('/accountsT.html')
 def accountsT():
-    query = text("SELECT Teacher_ID, First_Name, Last_Name FROM teacher")
+    query = text("SELECT Teacher_ID, First_Name, Last_Name, Email FROM teacher")
     teacher_data = conn.execute(query)
 
     return render_template('accountsT.html', teacher_data=teacher_data)
+
+@app.route('/tests')
+def tests():
+    query = text("SELECT Test_ID, Test_Name FROM Test")
+    tests = conn.execute(query).fetchall()
+    return render_template('tests.html', tests=tests)
+
+@app.route('/test_questions/<test_id>')
+def test_questions(test_id):
+    query = text("SELECT Question FROM Questions WHERE Test_ID = :test_id")
+    questions = conn.execute(query, {'test_id' : test_id}).fetchall()
+    return render_template('test_questions.html', questions=questions, test_id=test_id)
+
+@app.route('/submit_answers/<test_id>', methods=['POST'])
+def submit_answers(test_id):
+    student_id = studentID
+    query = text("SELECT Test_ID, Question FROM Questions WHERE Test_ID = :test_id")
+    questions = conn.execute(query, {'test_id' : test_id}).fetchall()
+    for question in questions:
+        answer = request.form.get('answer_{}'.format(question.Test_ID))
+        query = text("INSERT INTO Answers (Test_ID, Student_ID, Answer) VALUES (:test_id, :student_id, :answer)")
+        conn.execute(query, {'test_id': test_id, 'student_id': student_id, 'answer': answer})
+    return redirect(url_for('tests'))
 
 if __name__ == '__main__':
     app.run(debug=True)
