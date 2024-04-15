@@ -89,7 +89,6 @@ def loginTGo():
 
 @app.route('/createTest.html', methods=["GET"])
 def createTest():
-    print(teachID)
     return render_template('createTest.html')
 
 @app.route('/createTest.html', methods=["POST"])
@@ -196,13 +195,23 @@ def test_questions(test_id):
 @app.route('/submit_answers/<test_id>', methods=['POST'])
 def submit_answers(test_id):
     student_id = studentID
-    query = text("SELECT Test_ID, Question FROM Questions WHERE Test_ID = :test_id")
+    query = text("SELECT Question FROM Questions WHERE Test_ID = :test_id")
     questions = conn.execute(query, {'test_id' : test_id}).fetchall()
     for question in questions:
-        answer = request.form.get('answer_{}'.format(question.Test_ID))
+        answer = request.form[question]
         query = text("INSERT INTO Answers (Test_ID, Student_ID, Answer) VALUES (:test_id, :student_id, :answer)")
         conn.execute(query, {'test_id': test_id, 'student_id': student_id, 'answer': answer})
     return redirect(url_for('tests'))
+
+@app.route('/StudentResults')
+def student_test_results():
+    student_id = studentID
+    query = text("SELECT Test.Test_ID, Test.Test_Name, Tests_Taken.Marks FROM Test JOIN Tests_Taken ON Test.Test_ID = Tests_Taken.Test_ID WHERE Tests_Taken.Student_ID = :student_id")
+    tests = conn.execute(query, {'student_id': student_id}).fetchall()
+    results = []
+    for test in tests:
+        results.append({'test_id': test[0], 'test_name': test[1], 'marks': test[2]})
+    return render_template('StudentResults.html', results=results)
 
 if __name__ == '__main__':
     app.run(debug=True)

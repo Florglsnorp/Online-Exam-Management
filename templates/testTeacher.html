@@ -1,4 +1,4 @@
-{% extends "studentBase.html"%}
+{% extends "teachBase.html"%}
 {% block body %}
 <head>
     <title>Tests</title>
@@ -9,7 +9,7 @@
       {% for test in tests %}
         <li>
           {{ test.Test_Name }}
-          <a href="{{ url_for('test_questions', test_id=test.Test_ID) }}">Questions</a>
+          <a href="{{ url_for('test_questionTeacher', test_id=test.Test_ID) }}">Questions</a>
         </li>
       {% endfor %}
     </ul>

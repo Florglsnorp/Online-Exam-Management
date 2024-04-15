@@ -48,6 +48,10 @@ tr:hover {
   background-color: #ddd;
 }
 
+tr:active {
+    background-color: #adadad;
+  }
+
 .barItem,
 header li,
 .formSection,
