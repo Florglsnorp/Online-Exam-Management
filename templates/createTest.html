@@ -1,0 +1,40 @@
+{% extends "teachBase.html"%}
+{% block body %}
+    <form action="/createTest.html" method="POST">
+              
+        <label for="TestName">Test Name:</label>
+        <input type="text" id="TestName" name="TestName" required>
+      
+        <label for="Q1">Question 1:</label>
+        <input type="text" id="Q1" name="Q1" required>
+      
+        <label for="Q2">Question 2:</label>
+        <input type="text" id="Q2" name="Q2" required>
+
+        <label for="Q3">Question 3:</label>
+        <input type="text" id="Q3" name="Q3" required>
+
+        <label for="Q4">Question 4:</label>
+        <input type="text" id="Q4" name="Q4" required>
+
+        <label for="Q5">Question 5:</label>
+        <input type="text" id="Q5" name="Q5" required>
+
+        <label for="Q6">Question 6:</label>
+        <input type="text" id="Q6" name="Q6" required>
+
+        <label for="Q7">Question 7:</label>
+        <input type="text" id="Q7" name="Q7" required>
+
+        <label for="Q8">Question 8:</label>
+        <input type="text" id="Q8" name="Q8" required>
+
+        <label for="Q9">Question 9:</label>
+        <input type="text" id="Q9" name="Q9" required>
+
+        <label for="Q10">Question 10:</label>
+        <input type="text" id="Q10" name="Q10" required>
+      
+        <input type="submit" value="Create Test">
+    </form>
+{% endblock %}

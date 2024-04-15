@@ -1,0 +1,17 @@
+{% extends "studentBase.html"%}
+{% block body %}
+<head>
+    <title>Tests</title>
+  </head>
+  <body>
+    <h1>Tests</h1>
+    <ul>
+      {% for test in tests %}
+        <li>
+          {{ test.Test_Name }}
+          <a href="{{ url_for('test_questions', test_id=test.Test_ID) }}">Questions</a>
+        </li>
+      {% endfor %}
+    </ul>
+  </body>
+{% endblock %}
